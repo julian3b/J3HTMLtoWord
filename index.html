@@ -1,7 +1,50 @@
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script src="https://cdn.rawgit.com/eligrey/FileSaver.js/5ed507ef8aa53d8ecfea96d96bc7214cd2476fd2/FileSaver.min.js"></script>
 <script src="J3HTMLtoWord.min.js" type="text/javascript"></script>
+
+<script>
+    var $jq = jQuery.noConflict();
+    $jq(function () {
+
+    });
+
+    function CreateDoc() {
+        var params = {};
+        params.FileName = 'Test';
+        params.Title = 'title ggg';
+        params.Orientation = 'portrait';
+        params.Size = '8.5in 11in';
+        params.Margin = '1in 1in 1in 1in';
+        params.HeaderMargin = '.1in';
+        params.FooterMargin = '.5in'
+        params.PageNumberText1 = 'Page';
+        params.PageNumberText2 = 'of';
+        params.PageNumberText3 = '';
+        params.TOCTitle = '<p style="font-size: 8pt">Table of Contents</p>';
+
+         params.Pages = [
+            '{{PageNum}} No width or height:  <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" /><br />' +
+             'width:  <img width="100" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" /><br />' +
+             '{{TOC}} <br /><br /><br /><br /> Here is a line of text with footnote 1 {{FootNote}}'
+             ,
+             'page 2 <h1>Title 1</h1> <br /><br /><br /> Here is another line of text with footnote 2 {{FootNote}}<br />' +
+             '<p> last footnote {{FootNote}}</p>',
+             '<h2>test page 3</h2>'
+            ];
+         params.HeaderFooters = [{ Header: 'header 1 <table style="width:100px"><tr><td style="width:100px"><img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" width="50px" style="width:50px;" /></td></tr></table> {{PageNum}}', Footer: 'footer 1' }, { Header: 'header 1', Footer: 'footer 1 {{PageNum}}' }];
+         params.FootNotes = ['This is Footnote 1', 'This is FootNote 2', 'Test test test test test test test']
+
+        params.Download = true;
+        J3.HTMLtoWord.GenerateWordFile(params, function (done) {
+            console.log(done);
+        });
+    }
+</script>
+
 <html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
+    <body>
+
+        <button type="button" id="btnExport" onclick="CreateDoc(); return false;">Export Test</button>
+    
+    </body>
 </html>
